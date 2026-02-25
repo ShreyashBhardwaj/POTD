@@ -1,6 +1,21 @@
 class Solution:
     def longestSubarray(self, arr, k):
-        pass
+
+        low =[]
+        high =[]
+        answer = 0
+        for i,element in enumerate(arr):
+            if element <= k:
+                low.append(element)
+            else:
+                high.append(element)
+
+
+            if len(high)>len(low):
+                answer+=1
+
+
+        return answer
 
 
 sol = Solution()
