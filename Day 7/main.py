@@ -1,21 +1,25 @@
 class Solution:
     def longestSubarray(self, arr, k):
+        prefix_sum = 0
+        first_occurrence = {0: -1}
+        max_len = 0
 
-        low =[]
-        high =[]
-        answer = 0
-        for i,element in enumerate(arr):
-            if element <= k:
-                low.append(element)
+        for i, val in enumerate(arr):
+            if val > k:
+                prefix_sum += 1
             else:
-                high.append(element)
+                prefix_sum -= 1
 
+            if prefix_sum > 0:
+                max_len = i + 1
 
-            if len(high)>len(low):
-                answer+=1
+            elif (prefix_sum - 1) in first_occurrence:
+                max_len = max(max_len, i - first_occurrence[prefix_sum - 1])
 
+            if prefix_sum not in first_occurrence:
+                first_occurrence[prefix_sum] = i
 
-        return answer
+        return max_len
 
 
 sol = Solution()
