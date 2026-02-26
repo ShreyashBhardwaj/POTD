@@ -1,28 +1,37 @@
+"""
+Given two strings s1 and s2 consisting of only lowercase English letters and of equal length, check if these two strings are isomorphic to each other.
+If the characters in s1 can be changed to get s2, then two strings, s1 and s2 are isomorphic. A character must be completely swapped out for another character while maintaining the order of the characters. A character may map to itself, but no two characters may map to the same character.
+
+Examples:
+
+Input: s1 = "aab", s2 = "xxy"
+Output: true
+Explanation: Each character in s1 can be consistently mapped to a unique character in s2 (a → x, b → y).
+Input: s1 = "aab", s2 = "xyz"
+Output: false
+Explanation: Same character 'a' in s1 maps to two different characters 'x' and 'y' in s2.
+Input: s1 = "abc", s2 = "xxz"
+Output: false
+Explanation: Two different characters 'a' and 'b' in s1 maps with same character 'x' in s2.
+
+"""
+
 class Solution:
     def areIsomorphic(self, s1, s2):
         # code here 
 
-        frequency_calc_s1 = {}
-        frequency_calc_s2 = {}
+        seen_in_s2 = set()
+        mapping = {}
+        for char1, char2 in zip(s1,s2):
+            if char1 in mapping:
 
-        for i in range(len(s1)):
-
-            if s1[i] not in frequency_calc_s1.keys():
-                frequency_calc_s1[s1[i]] = 1
+                if mapping[char1] != char2:
+                    return False
             else:
-                frequency_calc_s1[s1[i]] += 1
-
-            if s2[i] not in frequency_calc_s2.keys():
-                frequency_calc_s2[s2[i]] = 1
-            else:
-                frequency_calc_s2[s2[i]] += 1
-
-        while frequency_calc_s1:
-
-            if next(iter(frequency_calc_s1)) != next(iter(frequency_calc_s2)):
-                return False
-
-            frequency_calc_s2.pop(next(iter(frequency_calc_s2)))
-            frequency_calc_s1.pop(next(iter(frequency_calc_s1)))
+                if char2 in seen_in_s2:
+                    return False
+                mapping[char1] = char2
+                seen_in_s2.add(char2)
 
         return True
+
